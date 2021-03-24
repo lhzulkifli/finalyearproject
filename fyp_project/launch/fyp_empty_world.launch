@@ -1,0 +1,26 @@
+<launch>
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find turtlebot3_gazebo)/worlds/empty.world"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+    <!--arg name="world_name" value="$(arg world_file)"/-->
+  </include>
+
+  <arg name="x" default="0" />
+  <arg name="y" default="0" />
+  <arg name="z" default="0" />
+
+
+    <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find fyp_project)/urdf/fyp_robot.urdf.xacro' " />
+
+  <node name="fyp_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" 
+        args="-urdf -model fyp_robot -x $(arg x) -y $(arg y) -z $(arg z) -param robot_description" />
+    
+
+  <node pkg="turtlebot3_teleop" type="turtlebot3_teleop_key" name="turtlebot3_teleop_keyboard"  output="screen">
+  </node>
+
+</launch>
